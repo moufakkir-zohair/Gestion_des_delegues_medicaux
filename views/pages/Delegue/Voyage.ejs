@@ -1,0 +1,302 @@
+<%- include('header'); -%>
+    <main class="app-content">
+      <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header" style="margin: 12px 0 20px;">
+             <i class="fa fa-plane" aria-hidden="true"></i> Voyage
+            </h3>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+             <li class="breadcrumb-item"><i class="fa fa-home"></i> <a href="/dashboard_D"> Accueil</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><i class="fa fa-plane" aria-hidden="true"></i> Voyage</li>
+            </ol>
+          </nav>
+          </div>
+        </div>
+      
+
+
+       <div class="col-lg-12" style="padding-left: 0px;padding-right: 0px;">
+            <section class="panel">
+              <header class="panel-heading">
+                Planifier un voyage
+              </header>
+              <div class="panel-body">
+                <div class="form">
+              <form  action="/AjouterVoyage" method="POST">
+                <div class="form-group row">
+                  <label class="control-label col-lg-2">Ville de départ:</label>
+                  <div class="col-md-10">
+                    <input class="form-control" type="text" name="ville_d">
+                  </div>
+                </div>
+                 <div class="form-group row">
+                  <label class="control-label col-lg-2">Date de départ:</label>
+                  <div class="col-md-10">
+                    <input class="form-control" type="datetime-local" name="date_d">
+                  </div>
+                </div>
+                 <div class="form-group row">
+                  <label class="control-label col-lg-2">Ville d'arrivée:</label>
+                  <div class="col-md-10">
+                    <input class="form-control" type="text" name="ville_a">
+                  </div>
+                </div>
+                 <div class="form-group row">
+                  <label class="control-label col-lg-2">Date d'arrivée:</label>
+                  <div class="col-md-10">
+                    <input class="form-control" type="datetime-local" name="date_a" >
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <label class="control-label col-lg-2">Description de l'activité:</label>
+                  <div class="col-md-10">
+                    <textarea class="form-control" name="description" rows="5" placeholder="Veuillez saisir une description" required></textarea>
+                  </div>
+                </div>
+              
+              <hr>
+              <div class="tile-footer">
+              <div class="row">
+                <div class="col-md-8 col-md-offset-3">
+                  <button type="submit"  class="btn btn-primary" type="button"><i class="fa fa-fw fa-lg fa-check-circle"></i>Enregistrer</button>&nbsp;&nbsp;&nbsp;<a class="btn btn-secondary" href="#"><i class="fa fa-fw fa-lg fa-times-circle"></i>Annuler</a>
+                </div>
+              </div>
+            </div>
+          
+              </form>
+            </div>
+           </div>
+         </section>
+       </div>
+
+
+        <div class="row">
+        <div class="col-md-12" style="padding-left: 26px;padding-right: 26px;">
+          <div class="tile">
+            <section class="invoice">
+              <div class="row mb-4">
+                <div class="col-6">
+                  <h2 class="page-header"><i class="fa fa-plane" aria-hidden="true"></i> Les Voyages</h2>
+                </div>
+                <div class="col-6">
+                  <h5 class="text-right" style="margin-top: 10px;">Date:<%= date %></h5>
+                </div>
+              </div>
+             
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                  <thead>
+                    <tr>
+                      <th>Ville de départ</th>
+                      <th>Date de départ </th>
+                      <th>Ville d'arrivée</th>
+                      <th>Date d'arrivée </th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                   <% for(V of Voyage){ %>
+                    <tr>
+                      <td><%= V.ville_d %></td>
+                      <td><%= V.date_d %></td>
+                      <td><%= V.ville_a %></td>
+                      <td><%= V.date_a %></td>
+                      <td>
+
+ 						 <li class="list-inline-item">
+                             <button 
+	                             class="btn btn-primary" data-toggle="modal" data-target="#description" data-description="<%= V.description %>" type="button" 
+	                             style="padding-left: 4px;padding-right: 4px; background-color: slateblue;">
+	                             <i class="fa fa-info-circle" aria-hidden="true"></i>Description
+                             </button> </li>
+
+                       
+                        <button class="btn btn-danger" data-editid="<%= V.id %>"  data-editville_d="<%= V.ville_d %>",  data-editdate_d="<%= V.date_d %>",  data-editville_a="<%= V.ville_a %>",  data-editdate_a="<%= V.date_a %>",  data-editdescription="<%= V.description %>" data-toggle="modal" data-target="#editmodel"  type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button>
+                      
+                        <button class="btn btn-danger" data-deleteid="<%= V.id %>" data-toggle="modal" data-target="#deletemodel"  type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-trash" aria-hidden="true" ></i>Supprimer</button>
+                       
+                       
+
+
+                      </td>
+                    </tr>
+                  <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+<div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <form action="/SupprimerVoyage" method="POST">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Supprimer ce voyage</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                      </div>
+                      <div class="modal-body">
+                       <input type="hidden" name="delete_id" id="delete_id" >
+                        Voulez-vous supprimer ce voyage? </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                        <button type="submit" class="btn btn-primary"> Oui </button>
+                      </div>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+
+
+
+
+
+
+  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="description" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier un délégué</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+
+                      <div class="modal-body">
+                          <div class="form-group">
+                            <input style="border: none;" type="text" class="form-control" name="description" id="description" value="" readOnly>
+                          </div>
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Ok</button>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+ <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="editmodel" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier la planification de voyage</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form role="form" action="/ModifierVoyage" method="POST" name = "myForm">
+
+                          <input type="hidden" id="editid" name="editid" />
+                          <div class="form-group">
+                            <label>Ville de départ</label>
+                            <input type="text" class="form-control" name="editville_d" id="editville_d">
+                          </div>
+                          <div class="form-group">
+                            <label>Date de départ</label>
+                            <input type="datetime-local" class="form-control" name="editdate_d"  id="editdate_d" value="">
+                          </div>
+                          <div class="form-group">
+                            <label >Ville d'arrivée</label>
+                            <input type="text" class="form-control" name="editville_a" id='editville_a' >
+                          </div >
+                          <div class="form-group">
+                            <label>Date d'arrivée</label>
+                            <input type="datetime-local" class="form-control" name="editdate_a" id='editdate_a' >
+                          </div >
+                           <div class="form-group">
+                            <label>Description</label>
+                            <textarea rows="6" type="text" class="form-control" name="editdescription" id='editdescription' ></textarea>
+                          </div >
+                          
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success ">Enregistrer</button>
+                          </div>
+                          
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+      </main>
+     <!-- Essential javascripts for application to work-->
+    <script src="static/js/jquery-3.3.1.min.js"></script>
+    <script src="static/js/popper.min.js"></script>
+    <script src="static/js/bootstrap.min.js"></script>
+    <script src="static/js/main.js"></script>
+    <!-- The javascript plugin to display page loading on top-->
+    <script src="static/js/plugins/pace.min.js"></script>
+    <!-- Page specific javascripts-->
+    <!-- Data table plugin-->
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"></script>
+    
+    <script type="text/javascript" src="static/js/plugins/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="static/js/plugins/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript">
+
+       $('#sampleTable').DataTable( {
+          "language": {
+         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+         }
+       })
+
+
+        $('#deletemodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var delete_id=button.data('deleteid')
+        console.log(delete_id)
+        var modal=$(this)
+        modal.find('.modal-body #delete_id').val(delete_id);
+       })
+
+
+        $('#editmodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var editid=button.data('editid')
+        var editville_d=button.data('editville_d')  
+        var editdate_d=button.data('editdate_d')
+        var editville_a=button.data('editville_a')
+        var editdate_a=button.data('editdate_a')
+        var editdescription=button.data('editdescription')
+        var modal=$(this)
+        modal.find('.modal-body #editid').val(editid);
+        modal.find('.modal-body #editville_d').val(editville_d);
+        modal.find('.modal-body #editdate_d').val(editdate_d);
+        modal.find('.modal-body #editville_a').val(editville_a);
+        modal.find('.modal-body #editdate_a').val(editdate_a);
+        modal.find('.modal-body #editdescription').val(editdescription);
+       })
+
+
+
+       $('#description').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var description=button.data('description')
+        var modal=$(this)
+        modal.find('.modal-body #description').val(description);
+       })
+
+        </script>
+  </body>
+</html>

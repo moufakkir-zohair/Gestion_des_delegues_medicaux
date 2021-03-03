@@ -1,0 +1,340 @@
+<%- include('header');  %>
+    <main class="app-content">
+      <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header" style="margin: 12px 0 20px;">
+               <i class="app-menu__icon fa fa-list-alt"></i> Commande
+            </h3>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+             <li class="breadcrumb-item"><i class="fa fa-home"></i> <a href="/dashboard_D"> Acceuil</a></li>
+              <li class="breadcrumb-item active" aria-current="page">  <i class="app-menu__icon fa fa-list-alt"></i> Commande</li>
+            </ol>
+          </nav>
+          </div>
+        </div>
+      
+<button type="button" id="new" class="btn btn-primary" data-toggle="modal" data-target="#AjouterProduit" style="margin-bottom: 10px;">
+                  Ajouter un médicament   <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                </button>
+
+
+ 
+
+      <div class="row" style="margin-bottom: -18px;">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="sampleTable1">
+                  <thead>
+                    <tr>
+                      <th>Code</th>
+                      <th>Nom </th>
+                      <th>Prix </th>
+                      <th>Quantité </th>
+                      <th>Total </th>
+                      <th>action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  <% for(C of commande ){ %>
+                    <tr>
+                      <td><%= C.Code %></td>
+                      <td><%= C.Nom_medi %></td>
+                      <td><%= C.prix %></td>
+                      <td><%= C.quantite %></td>
+                      <td><%= C.prix*C.quantite %></td>
+                      <td>
+
+             <li class="list-inline-item">
+                             
+                             <button class="btn btn-danger" data-toggle="modal" data-target="#editmodel"  type="button" data-code=<%= C.Code %> data-quantite=<%= C.quantite %> style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button>
+                      
+                        <button class="btn btn-danger"  data-toggle="modal" data-target="#deletemodel"  data-code=<%= C.Code %> type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-trash" aria-hidden="true" ></i>Supprimer</button>
+                        </td>
+                    </tr>
+                 <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      
+        <button type="button" data-toggle="modal" data-target="#EnregisterCommande"  type="button" class="btn btn-primary" style="margin-bottom: 10px;"><i class="fa fa-check-circle-o" aria-hidden="true"></i>
+                 Enregister
+        </button>
+       
+
+        <button type="button"  class="btn btn-primary" data-toggle="modal" data-target="#" style="margin-bottom: 10px;"><i class="fa fa-times-circle-o" aria-hidden="true"></i>
+        <a href="/AnnulerCommande" style="color: #ffffff;">Annuler </a>
+                 
+        </button>
+
+
+
+<div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <section class="invoice">
+              <div class="row mb-4">
+                <div class="col-6">
+                  <h2 class="page-header"><i class="fa fa-list-alt" aria-hidden="true"></i> Les Commandes </h2>
+                </div>
+                <div class="col-6">
+                  <h5 class="text-right" style="margin-top: 10px;">Date:<%= date %> </h5>
+                </div>
+              </div>
+             
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tile">
+            <div class="tile-body">
+              <div class="table-responsive">
+                <table class="table table-hover table-bordered" id="sampleTable">
+                  <thead>
+                    <tr> 
+                    <th>Adresse Destination</th>
+                      <th>Date</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(f of FicheCommande) { %>
+                    %>
+                    <tr> 
+                    <td><%= f.adresse %></td> 
+                      <td><%= f.date %></td>
+                     
+                     
+
+                      <td>
+ <a href="./static/<%= f.path %>" ><button class="btn btn-info" type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-download" aria-hidden="true"></i>Télécharger</button></a>
+                        
+                        <button class="btn btn-danger deletebtn" data-toggle="modal" data-target="#deletemodelCommande" data-deleteid="<%= f.id %>" type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-trash" aria-hidden="true" ></i>Supprimer</button>
+
+                      </td>
+                    </tr>
+                   <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+            </section>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+<div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <form action="/SupprimerProduitCommande" method="POST">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Supprimer ce médicament</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                      </div>
+                      <div class="modal-body">
+                       <input type="hidden" name="code" id="code" >
+                        Voulez-vous supprimer ce médicament de la commande? </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                        <button type="submit" class="btn btn-primary"> Oui </button>
+                      </div>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+
+<div class="modal fade" id="deletemodelCommande" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <form action="/SupprimerCommande" method="POST">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Supprimer cette commande</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                      </div>
+                      <div class="modal-body">
+                       <input type="hidden" name="deleteid" id="deleteid" >
+                        Voulez-vous supprimer cette commande? </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                        <button type="submit" class="btn btn-primary"> Oui </button>
+                      </div>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+
+
+<div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="EnregisterCommande" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Enregister Commande</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+                      <form role="form" action="/EnregistreCommande" method="POST" >
+                      <div class="modal-body">
+                          <div class="form-group">
+                             <p> Merci de choisi le destinarion de cette commande</p>
+          
+                             <div>
+                              <select name="docteur" class="form-control" id="docteur">
+		                      <% for(d of docteur){%>
+		                      <option value="<%= d.id %>"><%= d.nom %> <%= d.prenom %></option>
+		                      <% } %>
+		                    </select>
+		                  </div>
+		                </div>
+		                <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success ">Ajouter</button>
+                          </div>
+
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+
+
+  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="AjouterProduit" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter Médicament</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+                      <form role="form" action="/AddMedicament_Ord" method="POST" name = "myForm">
+                      <div class="modal-body">
+                          <div class="form-group">
+                            <label>Médicament</label>
+                             <div>
+                              <select name="medicament" class="form-control" id="medicament">
+		                      <% for(M of medicament){%>
+		                      <option value="<%= M.Code %>"><%= M.Nom_medi %></option>
+		                      <% } %>
+		                    </select>
+		                  </div>
+		                </div>
+
+		         
+                        <div class="form-group">
+                            <label>Quantité</label>
+                            <input type="number" class="form-control" name="quantite" id="quantite" required>
+                        </div>
+
+                           <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success ">Ajouter</button>
+                          </div>
+
+                          </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+ <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="editmodel" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier la Quantité</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form role="form" action="/ModifierQuantite" method="POST" name = "myForm">
+
+                          <input type="hidden" id="code" name="code" />
+                          <div class="form-group">
+                            <label>Quantité</label>
+                            <input type="text" class="form-control" name="quantite" id="quantite" value="">
+                          </div>
+                         
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success ">Enregistrer</button>
+                          </div>
+                          
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+
+
+      </main>
+
+      <%- include('footer'); -%>
+
+
+    <script type="text/javascript">
+       $('#sampleTable').DataTable( {
+          "language": {
+         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+         }
+       })
+       
+       
+        $('#sampleTable1').DataTable( {
+          "language": {
+         "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+         }
+       }) 
+
+
+        $('#deletemodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var code=button.data('code')
+        var modal=$(this)
+        modal.find('.modal-body #code').val(code);
+       })
+
+
+        $('#deletemodelCommande').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var deleteid=button.data('deleteid')
+        var modal=$(this)
+        modal.find('.modal-body #deleteid').val(deleteid);
+       })
+
+
+        $('#editmodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var code=button.data('code')
+        var quantite=button.data('quantite')
+        var modal=$(this)
+        
+        modal.find('.modal-body #code').val(code);
+        modal.find('.modal-body #quantite').val(quantite);
+       })
+
+
+
+        </script>
+  </body>
+</html></p>

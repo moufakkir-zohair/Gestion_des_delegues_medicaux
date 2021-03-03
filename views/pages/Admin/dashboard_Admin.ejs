@@ -1,0 +1,50 @@
+          <%- include('header'); -%>
+    <main class="app-content">
+     
+      <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header" style="margin: 12px 0 20px;">
+              <i class="app-menu__icon fa fa-dashboard"></i> Tableau de bord
+            </h3>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+             <li class="breadcrumb-item"><i class="fa fa-home"></i> <a href="/dashboard_Admin"> Acceuil</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><i class="app-menu__icon fa fa-dashboard"></i> Tableau de bord</li>
+            </ol>
+          </nav>
+          </div>
+        </div>
+
+  
+     <div class="row">
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small primary coloured-icon"><span><img src="static/images/doctor.png" style="width: 80px;height: 100px;border-radius: 4px;"></span>
+            <div class="info">
+              <h4>Docteurs</h4>
+              <p><b><%= NbreDocteur[0].NbreDocteur %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small info coloured-icon">
+            <span><img src="static/images/de.png" style="width: 80px;height: 100px;border-radius: 4px;"></span>
+            <div class="info">
+              <h4>délégués</h4>
+              <p><b><%= NbreDelegue[0].NbreDelegue %></b></p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3">
+          <div class="widget-small warning coloured-icon"><span><img src="static/images/me.png" style="width: 80px;height: 100px;border-radius: 4px;"></span>
+            <div class="info">
+              <h4>médicaments</h4>
+              <p><b><%= NbreMedicament[0].NbreMedicament %></b></p>
+            </div>
+          </div>
+        </div>
+        </div>
+      </div>
+    </main>
+            <%- include('footer'); -%>
+  </body>
+</html>

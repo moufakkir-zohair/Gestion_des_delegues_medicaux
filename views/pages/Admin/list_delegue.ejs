@@ -1,0 +1,215 @@
+<%- include('header'); -%>
+      <main class="app-content">
+      
+
+        <div class="row">
+          <div class="col-lg-12">
+            <h3 class="page-header" style="margin: 12px 0 20px;">
+             <i class="fa fa-user" aria-hidden="true"></i> Délégué
+            </h3>
+            <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+             <li class="breadcrumb-item"><i class="fa fa-home"></i> <a href="/dashboard_Admin"> Acceuil</a></li>
+              <li class="breadcrumb-item active" aria-current="page"><i class="fa fa-user" aria-hidden="true"></i> Délégué</li>
+            </ol>
+          </nav>
+          </div>
+        </div>
+
+                <button type="button" id="new" class="btn btn-primary" data-toggle="modal" data-target="#Add_Doctor" style="margin-bottom: 10px;">
+                  Ajouter un délégué       <i class="fa fa-plus-square-o" aria-hidden="true"></i>
+                </button>
+
+      <div class="row">
+        <br><div class="col-md-12">
+          <div class="tile"></br>
+            <div class="tile-body">
+              <div class="table-responsive">
+                
+                <table class="table table-hover table-bordered" id="sampleTable">
+                  <thead>
+                    <tr>
+                      <th>Nom</th>
+                      <th>Prénom</th>
+                      <th>Email</th>
+                      <th>Numéro de téléphone</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                     <% for (d of Delegue){  %>
+                      <tr>
+                         <td><%= d.nom %></td>
+                         <td><%= d.prenom %></td>
+                         <td><%= d.email %></td>
+                          <td><%= d.Numero_tele %></td>
+                        <td>
+                          <li class="list-inline-item">
+                             <button class="btn btn-success" data-toggle="modal" data-target="#editmodel" data-edit_id="<%= d.id %>" data-first_name="<%= d.nom %>" data-last_name="<%= d.prenom %>" data-email="<%= d.email %>" data-phone="<%= d.Numero_tele %>" type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>Modifier</button>
+                          </li>
+                          <li class="list-inline-item">
+                                <button class="btn btn-danger" data-toggle="modal" data-target="#deletemodel" data-delete_id="<%= d.id %>"  type="button" style="padding-left: 4px;padding-right: 4px;"><i class="fa fa-trash" aria-hidden="true" ></i>Supprimer</button>
+                          </li>
+                        </td>
+                      </tr>
+                    <% } %>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+     <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="Add_Doctor" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un délégué</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form role="form" action="/Add_Delegate" method="POST" name = "myForm">
+                          <div class="form-group">
+                          <label>Nom</label>
+                          <input type="text" class="form-control" name="First_name" placeholder="Nom" required/>
+                          </div>
+                          <div class="form-group">
+                            <label>Prénom</label>
+                            <input type="text" class="form-control" name="Last_name" placeholder="Prénom" required>
+                          </div>
+                          <div class="form-group">
+                            <label>Email</label>
+                            <input type="Email" class="form-control" name="Email" placeholder="nom@exemple.com" required>
+                          </div>
+                          <div class="form-group">
+                            <label>Numéro de téléphone</label>
+                            <input type="text" class="form-control" name="phone" placeholder="0628978060" required>
+                          </div>
+
+                          <div class="form-group">
+                            <label>Mot de passe </label>
+                            <input type="password" class="form-control" name="password"  required>
+                          </div>
+                        
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-primary ">Enregister</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+               
+
+                <div class="modal fade" id="deletemodel" tabindex="-1" role="dialog" aria-labelledby="delete" aria-hidden="true">
+                  <div class="modal-dialog" role="document">
+                    <form action="/delete_Delegate" method="POST">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Supprimer un délégué</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"> <span aria-hidden="true">&times;</span> </button>
+                      </div>
+                      <div class="modal-body">
+                       <input type="hidden" name="delete_id" id="delete_id">Voulez-vous supprimer ce délégué? </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Non</button>
+                        <button type="submit" class="btn btn-danger"> Oui </button>
+                      </div>
+                    </div>
+                  </form>
+                  </div>
+                </div>
+
+
+
+
+  <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="editmodel" class="modal fade">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Modifier un délégué</h5>
+                         <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+                      </div>
+
+                      <div class="modal-body">
+                        <form role="form" action="/edit_delegate" method="POST" name = "myForm">
+                          
+                          
+                          <input type="hidden" id="edit_id" name="edit_id" />
+                          
+                          <div class="form-group">
+                            <label>Nom</label>
+                            <input type="text" class="form-control" name="first_name" id="first_name">
+                          </div>
+                          <div class="form-group">
+                            <label for="exampleInputPassword1">Prénom</label>
+                            <input type="text" class="form-control" name="last_name" placeholder="last_name" id="last_name" required>
+                          </div>
+                          <div class="form-group">
+                            <label >Email</label>
+                            <input type="email" class="form-control" name="email" id='email'  >
+                          </div >
+                          <div class="form-group">
+                            <label>Numéro de téléphone</label>
+                            <input type="text" class="form-control" name="phone" id='phone' >
+                          </div >
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+                            <button type="submit" class="btn btn-success ">Enregistrer</button>
+                          </div>
+                          
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+    <%- include('footer'); -%>
+    
+
+  <script type="text/javascript">
+    $('#sampleTable').DataTable( {
+        "language": {
+             "url": "//cdn.datatables.net/plug-ins/9dcbecd42ad/i18n/French.json"
+             },
+        columnDefs: [
+            { targets: [3,4], orderable: false},
+           ]
+        });
+     
+     $('#editmodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var edit_id=button.data('edit_id')
+        var first_name=button.data('first_name')  
+        var last_name=button.data('last_name')
+        var email=button.data('email')
+        var phone=button.data('phone')
+        var modal=$(this)
+        modal.find('.modal-body #edit_id').val(edit_id);
+        modal.find('.modal-body #first_name').val(first_name);
+        modal.find('.modal-body #last_name').val(last_name);
+        modal.find('.modal-body #email').val(email);
+        modal.find('.modal-body #phone').val(phone);
+       })
+
+
+
+      $('#deletemodel').on('show.bs.modal',function(event){
+        var button = $(event.relatedTarget)
+        var delete_id=button.data('delete_id')
+        
+        var modal=$(this)
+        modal.find('.modal-body #delete_id').val(delete_id);
+        
+       })
+    
+
+    </script>
+  </body>
+</html>
